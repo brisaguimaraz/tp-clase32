@@ -49,28 +49,26 @@ const moviesController = {
     create: (req, res) => {
         let errors = validationResult(req)
 
+        const { title, rating,awards,release_date,length } = req.body
         if (errors.isEmpty()) {
         db.Movie.create({
-            title: req.body.title,
-            rating: +req.body.rating,
-            awards: +req.body.awards,
-            release_date: Date(req.body.release_date),
-            length: +req.body.length,
-            genre_id: +req.body.genre,
-            created_at: new Date,
-            update_at: new Date
+            title: title.trim(),
+            rating,
+            awards,
+            release_date,
+            length
         })
         .then(movie => {
             res.redirect('/movies')
         })
-        .catch(e => console.log(e))
+        .catch(error => console.log(error))
     } else {
         res.render('moviesAdd', {errors : errors.mapped()})
     }
     },
     edit: function(req, res) {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
+        if(errors.isEmpty()) {
 
             db.Movie.findByPk(req.params.id)
             .then(movie => {
