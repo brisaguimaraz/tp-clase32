@@ -79,39 +79,42 @@ const moviesController = {
     },
     update: function (req,res) {
 
-        const {title,rating,release_date,awards,length, genre_id} = req.body;
+        const {title,rating,release_date,awards,length} = req.body;
         const errors = validationResult(req);
 
-        if(errors.isEmpty()) {
-
-        db.Movie.update(
-            {
-            title : title.trim(),
-            rating,
-            release_date,
-            awards,
-            length,
-            genre_id
-        }, 
-        {
-            where : {
-                id : req.params.id
-            }
-        })
-        .then(response => {
-            console.log(response);
-            db.Movie.findByPk(req.params.id)
+        if(errors.isEmpty()){
+            db.Movie.update(
+                {
+                    title: title.trim(),
+                rating,
+                release_date,
+                awards,
+                length
+                },
+                {
+                    where:{
+                     id: req.params.id
+                    }
+                }
+            ).
+            then(response => {
+                db.Movie.findByPk(req.params.id)
                 .then(movie => {
-                  return res.render('moviesDetail', {
-                    movie
-                  })
+                    res.render('moviesDetail',{movie})
                 })
-        }).catch(error => console.log(error))
-    } else {
-        return res.render('moviesDetail', {
-            errors : errors.mapped()
-        })
-    }
+                
+            }).catch(error => console.log(error));
+
+        } else {
+            db.Movie.findByPk(req.params.id)
+            .then(Movie => {
+                res.render('moviesEdit',{Movie,
+                    errors: errors.mapped(),
+                    moment
+                });
+            });
+        }
+           
     },
     delete: function (req, res) {
         db.Movie.findByPk(req.params.id)

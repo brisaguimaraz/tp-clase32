@@ -9,37 +9,49 @@
 </head>
 
 <body>
-    <figure>
-        <img src="/img/logo-DH.png" alt="Logo Digital House">
-      </figure>
+    <a href="/movies">
+        <figure>
+            <img src="/img/logo-DH.png" alt="Logo Digital House">
+        </figure>    
+    </a>
     <h1 class="titulo">Película a Editar:  <%= Movie.title %></h1>
     <section class="formulario">
         <form action="/movies/update/<%= Movie.id %>?_method=PUT" method="POST">
             <label for="title">Title </label>
-            <p><input type="text" name="title" id="title" value="<%= Movie.title %>"></p>
-            <% if (errors && errors.title) { %>
-                <small><%= errors.title.msg %></small>
-            <% } %>
+            <p><input type="text" name="title" id="title" value="<%= Movie.title %>">
+                <% if (errors && errors.title) { %>
+                    <small style="color: tomato;"><%= errors.title.msg %></small>
+                <% } %>
+            </p>
+            
             <label for="rating">Rating </label>
-            <p><input type="number" name="rating" id="rating" value="<%= Movie.rating %>"></p>
-            <% if (errors && errors.rating) { %>
-                <small><%= errors.rating.msg %></small>
-            <% } %>
+            <p><input type="number" name="rating" id="rating" value="<%= Movie.rating %>">
+                <% if (errors && errors.rating) { %>
+                    <small style="color: tomato;"><%= errors.rating.msg %></small>
+                <% } %>
+            </p>
+            
             <label for="awards">Awards </label>
-            <p><input type="number" name="awards" id="awards" value="<%= Movie.awards %>"></p>
-            <% if (errors && errors.awards) { %>
-                <small><%= errors.awards.msg %></small>
-            <% } %>
+            <p><input type="number" name="awards" id="awards" value="<%= Movie.awards %>">
+                <% if (errors && errors.awards) { %>
+                    <small style="color: tomato;"><%= errors.awards.msg %></small>
+                <% } %>
+            </p>
+            
             <label for="release_date">Release date </label>
-            <p><input type="date" name="release_date" id="release_date" value="<%= moment(Movie.release_date).format('YYYY-MM-DD') %>"></p>
-            <% if (errors && errors.release_date) { %>
-                <small><%= errors.release_date.msg %></small>
-            <% } %>
+            <p><input type="date" name="release_date" id="release_date" value="<%= moment(Movie.release_date).format('YYYY-MM-DD') %>">
+                <% if (errors && errors.release_date) { %>
+                    <small style="color: tomato;"><%= errors.release_date.msg %></small>
+                <% } %>
+            </p>
+            
             <label for="length">Length </label>
-            <p><input type="number" name="length" id="" value="<%= Movie.length %>"></p>
-            <% if (errors && errors.length) { %>
-                <small><%= errors.length.msg %></small>
-            <% } %>
+            <p><input type="number" name="length" id="" value="<%= Movie.length %>">
+                <% if (errors && errors.length) { %>
+                    <small style="color: tomato;"><%= errors.length.msg %></small>
+                <% } %>
+            </p>
+            
             <br>
             <p> <button class="botonAgregar" type="submit">Actualizar</button>
         
