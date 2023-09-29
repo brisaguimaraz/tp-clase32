@@ -47,9 +47,9 @@ const moviesController = {
         return res.render('moviesAdd', {errors : false})
     },
     create: (req, res) => {
-        let errors = validationResult(req)
-
         const { title, rating,awards,release_date,length } = req.body
+        const errors = validationResult(req);
+
         if (errors.isEmpty()) {
         db.Movie.create({
             title: title.trim(),
@@ -63,28 +63,26 @@ const moviesController = {
         })
         .catch(error => console.log(error))
     } else {
-        res.render('moviesAdd', {errors : errors.mapped()})
+        return res.render('moviesAdd', {errors : errors.mapped()})
     }
     },
     edit: function(req, res) {
-        const errors = validationResult(req);
-        if(errors.isEmpty()) {
-
             db.Movie.findByPk(req.params.id)
             .then(movie => {
-                return res.redirect('/movies')
+                return res.render('moviesEdit', { 
+                    Movie: movie, 
+                    moment,
+                    errors : false
+                })
             })
             .catch(error => console.log(error))
-
-        } else {
-            return res.render('moviesEdit', {
-                errors : errors.mapped()
-            })
-        }
     },
     update: function (req,res) {
 
-        const {title,rating,release_date,awards,length, genre_id} = req.body
+        const {title,rating,release_date,awards,length, genre_id} = req.body;
+        const errors = validationResult(req);
+
+        if(errors.isEmpty()) {
 
         db.Movie.update(
             {
@@ -107,10 +105,13 @@ const moviesController = {
                   return res.render('moviesDetail', {
                     movie
                   })
-
                 })
         }).catch(error => console.log(error))
-
+    } else {
+        return res.render('moviesDetail', {
+            errors : errors.mapped()
+        })
+    }
     },
     delete: function (req, res) {
         db.Movie.findByPk(req.params.id)
